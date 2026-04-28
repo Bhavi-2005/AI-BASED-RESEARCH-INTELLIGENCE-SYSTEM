@@ -49,6 +49,10 @@ class AnswerGenerator:
         self.max_new_tokens = max_new_tokens
         self.generator = load_research_generator(model_name)
 
+    def _format_context(self, results: list[SearchResult]) -> str:
+        """Format retrieved results into a single context string."""
+        return "\n\n".join(f"[Source: {r.chunk.source}]\n{r.chunk.text}" for r in results)
+
     def generate(
         self,
         query: str,
