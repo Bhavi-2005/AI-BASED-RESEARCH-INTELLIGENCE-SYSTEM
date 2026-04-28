@@ -369,7 +369,7 @@ def main():
         chat_q = st.text_area("Ask for deep methodological synthesis...", height=100)
         if st.button("Synthesize Answer"):
             retrieval = ret.retrieve(chat_q, top_k=5)
-            ans = gen.generate(chat_q, retrieval.results, retrieval.is_relevant)
+            ans = gen.generate(chat_q, retrieval.results[:3], retrieval.is_relevant)
             st.info(ans.answer)
             
 if __name__ == "__main__":

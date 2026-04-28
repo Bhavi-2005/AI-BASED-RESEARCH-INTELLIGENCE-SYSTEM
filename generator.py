@@ -31,7 +31,7 @@ def load_research_generator(model_name: str = DEFAULT_GENERATION_MODEL):
     except Exception as e:
         # Fallback to general text generation if Seq2Seq detection fails
         try:
-            return pipeline("text-generation", model="gpt2")
+            return pipeline("text2text-generation", model="google/flan-t5-small")
         except:
              return None
 
@@ -41,8 +41,8 @@ class AnswerGenerator:
     def __init__(
         self,
         model_name: str = DEFAULT_GENERATION_MODEL,
-        max_input_chars: int = 6000,
-        max_new_tokens: int = 250,
+        max_input_chars: int = 1500,
+        max_new_tokens: int = 150,
     ) -> None:
         self.model_name = model_name
         self.max_input_chars = max_input_chars
@@ -73,13 +73,13 @@ class AnswerGenerator:
 
         # Research-Grade Prompting
         prompt = (
-            "You are a PhD-level research assistant specializing in literature synthesis.\n"
-            "Analyze the retrieved context below to answer the user query.\n"
-            "REQUIREMENTS: Use ONLY provided evidence. If ambiguous, state 'Evidence insufficient'.\n\n"
+            "You are a research assistant specializing in literature synthesis.\n"
+            "Analyze the retrieved context below to answer the user query.\n\n"
             f"TEXT EVIDENCE:\n{context[:self.max_input_chars]}\n\n"
-            f"QUERY: {query}\n\n"
-            "STRICT GROUNDED ANSWER:"
+            f"QUERY: {query}\n\nSTRICT GROUNDED ANSWER:"
         )
+        prompt = prompt[:2000]
+
         
         response = self.generator(
             prompt,
