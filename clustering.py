@@ -8,7 +8,6 @@ from sklearn.cluster import KMeans
 
 def cluster_texts(embeddings, n_clusters: int = 3) -> list[int]:
     """Cluster embeddings, adapting the cluster count for small inputs."""
-
     if len(embeddings) == 0:
         return []
 
